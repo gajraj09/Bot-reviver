@@ -13,7 +13,7 @@ def ping():
     return {"status": "B alive"}, 200
 
 def ping_server_a():
-    target_url = os.environ.get("PING_URL", "https://binance-webhook-55an.onrender.com/ping")  # Replace with your actual Server A URL
+    target_url = os.environ.get("PING_URL", "https://binance-65gz.onrender.com/ping")  # Replace with your actual Server A URL
 
     while True:
         success = False
