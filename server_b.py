@@ -9,9 +9,10 @@ app = Flask(__name__)
 # List of servers that need to be kept alive
 TARGETS = [
     # "https://binance-65gz.onrender.com/ping",
+    "https://chartify-ethusdc.onrender.com/ping",
     "https://chartify-webhook.onrender.com/ping",
-    "https://chartify-ovem.onrender.com/ping",
-    "https://chartinger.onrender.com/ping"
+    # "https://chartify-ovem.onrender.com/ping",
+    # "https://chartinger.onrender.com/ping"
 ]
 
 PING_INTERVAL = int(os.environ.get("PING_INTERVAL", 300))  # default 5 minutes
