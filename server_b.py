@@ -11,7 +11,7 @@ TARGETS = [
     # "https://binance-65gz.onrender.com/ping",
     "https://chartify-ethusdc.onrender.com/ping",
     "https://ethusdc-15min-unrepeat.onrender.com/ping",
-    "https://chartify-webhook.onrender.com/ping",
+    # "https://chartify-webhook.onrender.com/ping",
     # "https://chartify-ovem.onrender.com/ping",
     # "https://chartinger.onrender.com/ping"
 ]
