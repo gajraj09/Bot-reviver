@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 # Multiple servers to keep alive
 TARGET_URLS = [
+    "https://binance-65gz.onrender.com/ping",
     "https://ethusdc-longonly.onrender.com/ping",
     "https://chartify-1min.onrender.com/ping"
 ]
