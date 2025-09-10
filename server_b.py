@@ -1,58 +1,3 @@
-from flask import Flask, jsonify
-import threading
-import requests
-import time
-import os
-
-app = Flask(__name__)
-
-# Multiple servers to keep alive
-TARGET_URLS = [
-    # "https://binance-65gz.onrender.com/ping",
-    "https://ethusdc-longonly.onrender.com/ping",
-    "https://chartify-1min.onrender.com/ping"
-]
-
-PING_INTERVAL = int(os.environ.get("PING_INTERVAL", 300))  # default 5 minutes
-
-
-@app.route("/ping")
-def ping():
-    """Health check for the reviver itself."""
-    return jsonify({"status": "reviver alive"}), 200
-
-
-def keep_alive(url):
-    """Background task to keep a single target server alive by pinging it."""
-    while True:
-        success = False
-        for attempt in range(3):  # retry up to 3 times
-            try:
-                response = requests.get(url, timeout=5)
-                if response.status_code == 200:
-                    print(f"✅ Successfully pinged {url}")
-                    success = True
-                    break
-            except Exception as e:
-                print(f"⚠️ Ping attempt {attempt+1} to {url} failed: {e}")
-                time.sleep(2)  # wait before retry
-
-        if not success:
-            print(f"❌ Failed to ping {url} after 3 attempts")
-
-        time.sleep(PING_INTERVAL)
-
-
-if __name__ == "__main__":
-    # Start one thread per target URL
-    for url in TARGET_URLS:
-        threading.Thread(target=keep_alive, args=(url,), daemon=True).start()
-
-    # Render provides PORT env variable
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
-
 # from flask import Flask, jsonify
 # import threading
 # import requests
@@ -61,8 +6,12 @@ if __name__ == "__main__":
 
 # app = Flask(__name__)
 
-# # Single server to keep alive
-# TARGET_URL = "https://ethusdc-longonly.onrender.com/ping"
+# # Multiple servers to keep alive
+# TARGET_URLS = [
+#     # "https://binance-65gz.onrender.com/ping",
+#     "https://ethusdc-longonly.onrender.com/ping",
+#     "https://chartify-1min.onrender.com/ping"
+# ]
 
 # PING_INTERVAL = int(os.environ.get("PING_INTERVAL", 300))  # default 5 minutes
 
@@ -73,34 +22,85 @@ if __name__ == "__main__":
 #     return jsonify({"status": "reviver alive"}), 200
 
 
-# def keep_alive():
-#     """Background task to keep the target server alive by pinging it."""
+# def keep_alive(url):
+#     """Background task to keep a single target server alive by pinging it."""
 #     while True:
 #         success = False
 #         for attempt in range(3):  # retry up to 3 times
 #             try:
-#                 response = requests.get(TARGET_URL, timeout=5)
+#                 response = requests.get(url, timeout=5)
 #                 if response.status_code == 200:
-#                     print(f"✅ Successfully pinged {TARGET_URL}")
+#                     print(f"✅ Successfully pinged {url}")
 #                     success = True
 #                     break
 #             except Exception as e:
-#                 print(f"⚠️ Ping attempt {attempt+1} to {TARGET_URL} failed: {e}")
+#                 print(f"⚠️ Ping attempt {attempt+1} to {url} failed: {e}")
 #                 time.sleep(2)  # wait before retry
 
 #         if not success:
-#             print(f"❌ Failed to ping {TARGET_URL} after 3 attempts")
+#             print(f"❌ Failed to ping {url} after 3 attempts")
 
 #         time.sleep(PING_INTERVAL)
 
 
 # if __name__ == "__main__":
-#     # Start background thread only once
-#     threading.Thread(target=keep_alive, daemon=True).start()
+#     # Start one thread per target URL
+#     for url in TARGET_URLS:
+#         threading.Thread(target=keep_alive, args=(url,), daemon=True).start()
 
 #     # Render provides PORT env variable
 #     port = int(os.environ.get("PORT", 10000))
 #     app.run(host="0.0.0.0", port=port)
+
+
+from flask import Flask, jsonify
+import threading
+import requests
+import time
+import os
+
+app = Flask(__name__)
+
+# Single server to keep alive
+TARGET_URL = "https://binance-65gz.onrender.com/ping"
+
+PING_INTERVAL = int(os.environ.get("PING_INTERVAL", 200))  # default 5 minutes
+
+
+@app.route("/ping")
+def ping():
+    """Health check for the reviver itself."""
+    return jsonify({"status": "reviver alive"}), 200
+
+
+def keep_alive():
+    """Background task to keep the target server alive by pinging it."""
+    while True:
+        success = False
+        for attempt in range(3):  # retry up to 3 times
+            try:
+                response = requests.get(TARGET_URL, timeout=5)
+                if response.status_code == 200:
+                    print(f"✅ Successfully pinged {TARGET_URL}")
+                    success = True
+                    break
+            except Exception as e:
+                print(f"⚠️ Ping attempt {attempt+1} to {TARGET_URL} failed: {e}")
+                time.sleep(2)  # wait before retry
+
+        if not success:
+            print(f"❌ Failed to ping {TARGET_URL} after 3 attempts")
+
+        time.sleep(PING_INTERVAL)
+
+
+if __name__ == "__main__":
+    # Start background thread only once
+    threading.Thread(target=keep_alive, daemon=True).start()
+
+    # Render provides PORT env variable
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
 
 
 # from flask import Flask, jsonify
