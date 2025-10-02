@@ -63,7 +63,7 @@ app = Flask(__name__)
 
 # Single server to keep alive
 TARGET_URL1 = "https://binance-webhook-s2hv.onrender.com/ping"
-TARGET_URL2 = "https://chartify-gw6c.onrender.com/ping"
+TARGET_URL2 = "https://ethusdc-longonly.onrender.com/ping"
 
 PING_INTERVAL = int(os.environ.get("PING_INTERVAL", 200))  # default 5 minutes
 
